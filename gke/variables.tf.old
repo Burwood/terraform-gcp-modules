@@ -1,0 +1,262 @@
+variable "project" {
+  description = "The ID of the project in which the resource belongs."
+}
+
+variable "count" {
+  description = "Number of nodes to deploy"
+  default = "1"
+}
+
+
+variable "environment" {
+  # DEV or PROD
+  default = "dev"
+}
+
+variable "cluster_name" {
+  description = "The name of the cluster, unique within the project and location."
+  default     = "private-cluster"
+}
+
+variable "node_name" {
+  description = "Name of the node pool."
+  default     = "node-pool"
+}
+
+variable "region" {
+  description = "The region that the cluster master and nodes should be created in."
+  default     = "us-central1"
+}
+
+variable "username" {
+  description = "The username to use for HTTP basic authentication when accessing the Kubernetes master endpoint. If not present basic auth will be disabled."
+  default     = ""
+}
+
+variable "password" {
+  description = "The password to use for HTTP basic authentication when accessing the Kubernetes master endpoint."
+  default     = ""
+}
+
+variable "network" {
+  description = "The name or self_link of the Google Compute Engine network to which the cluster is connected."
+  default     = "default"
+}
+
+variable "initial_node_count" {
+  default     = "1"
+  description = "The number of nodes to create in this cluster"
+}
+
+variable "daily_maintenance_window" {
+  default     = "07:00"
+  description = "Time window specified for daily maintenance operations. Format HH:MM"
+}
+
+variable "prod_machine_type" {
+  default     = "n1-standard-1"
+  description = "The name of a Google Compute Engine machine type. Defaults to n1-standard-1. To create a custom machine type"
+}
+
+variable "dev_machine_type" {
+  default     = "g1-small"
+  description = "The name of a Google Compute Engine machine type. Defaults to n1-standard-1. To create a custom machine type"
+}
+
+variable "image_type" {
+  description = "The image type to use for this node. Note that changing the image type will delete and recreate all nodes in the node pool."
+  default     = "COS"
+}
+
+variable "disk_size_gb" {
+  default     = "100"
+  description = "Size of the disk attached to each node, specified in GB. The smallest allowed disk size is 10GB. Defaults to 100GB"
+}
+
+variable "disk_type" {
+  description = "Type of the disk attached to each node (e.g. 'pd-standard' or 'pd-ssd'). If unspecified, the default disk type is 'pd-standard'"
+  default     = "pd-standard"
+}
+
+variable "min_node_count" {
+  default     = "2"
+  description = "Minimum number of nodes in the NodePool"
+}
+
+variable "max_node_count" {
+  default     = "110"
+  description = "Maximum number of nodes in the NodePool."
+}
+
+variable "master_version" {
+  description = "The current version of the master in the cluster. "
+  default     = "1.12.7-gke.7"
+}
+
+variable "cluster_secondary_range_name" {
+  description = "The secondary range will be used for pod IP addresses. This must be an existing secondary range associated with the cluster subnetwork."
+  default     = "k8-pods"
+}
+
+variable "services_secondary_range_name" {
+  description = "The name of the secondary range to be used as for the services CIDR block.This must be an existing secondary range associated with the cluster subnetwork."
+  default     = "k8-services"
+}
+
+variable "master_ipv4_cidr_block" {
+  description = "The IP range in CIDR notation to use for the hosted master network"
+  default     = "172.15.0.0/28"
+}
+
+variable "default_node_pool" {
+  description = " Deletes the default node pool upon cluster creation."
+  default     = "true"
+}
+
+variable "network_policy" {
+  description = "Whether network policy is enabled on the cluster."
+  default     = "true"
+}
+
+// Kubernetes Addons
+variable "horizontal_pod_autoscaling" {
+  description = "Enable horizontal pod autoscaling addon"
+  default     = true
+}
+
+variable "http_load_balancing" {
+  description = "The status of the HTTP (L7) load balancing controller addon, which makes it easy to set up HTTP load balancers for services in a cluster."
+  default     = true
+}
+
+variable "network_policy_config" {
+  description = "Enable network policy addon"
+  default     = true
+}
+
+variable "kubernetes_dashboard" {
+  description = "Enable HTTP Load balancer addon"
+  default     = false
+}
+
+// Private Cluster Config
+variable "enable_private_endpoint" {
+  description = "Whether the master's internal IP address is used as the cluster endpoint"
+  default     = true
+}
+
+variable "enable_private_nodes" {
+  description = "Whether nodes have internal IP addresses only.Defaults to true."
+  default     = true
+}
+
+// IP Allocation Config
+variable "use_ip_aliases" {
+  description = "Whether alias IPs will be used for pod IPs in the cluster. Defaults to true."
+  default     = true
+}
+
+variable "create_subnetwork" {
+  description = "Whether a new subnetwork will be created automatically for the cluster."
+  default     = true
+}
+
+variable "subnetwork_name" {
+  description = "Name of the subnetwork in VPC."
+  default     = "default"
+}
+
+variable "node_ipv4_cidr_block" {
+  description = "The IP address range of the node IPs in this cluster.et to blank to have a range chosen with the default size."
+  default     = "172.29.29.0/24"
+}
+
+variable "cluster_ipv4_cidr_block" {
+  description = "The IP address range of the kubernetes pods in this cluster. Default is an automatically assigned CIDR."
+  default     = "10.56.0.0/14"
+}
+
+variable "services_ipv4_cidr_block" {
+  description = " The IP address range of the services IPs in this cluster. Set to blank to have a range chosen with the default size."
+  default     = "10.170.80.0/20"
+}
+
+variable "logging_service" {
+  description = "The logging service that the cluster should write logs to."
+  default     = "logging.googleapis.com"
+}
+
+variable "monitoring_service" {
+  description = "The monitoring service that the cluster should write metrics to. "
+  default     = "monitoring.googleapis.com"
+}
+
+// Master Authorized Networks
+variable "master_authorized_network_name" {
+  description = "Field for users to identify CIDR blocks"
+  default     = "csoc-network"
+}
+
+variable "master_authorized_cidr_block" {
+  description = "External network that can access Kubernetes master through HTTPS. Must be specified in CIDR notation"
+  default     = "172.21.1.0/24"
+}
+
+// Node Config
+variable "oauth_scopes" {
+  description = "The set of Google API scopes to be made available on all of the node VMs under the 'default' service account.The following scopes are necessary to ensure the correct functioning of the cluster."
+  type        = "list"
+
+  default = [
+    "https://www.googleapis.com/auth/compute",
+    "https://www.googleapis.com/auth/devstorage.read_only",
+    "https://www.googleapis.com/auth/logging.write",
+    "https://www.googleapis.com/auth/monitoring",
+  ]
+}
+
+// Cluster Timeouts
+variable "timeout_create" {
+  default = "30m"
+}
+
+variable "timeout_update" {
+  default = "30m"
+}
+
+variable "timeout_delete" {
+  default = "30m"
+}
+
+// NODE POOL //
+// Management
+variable "node_auto_repair" {
+  description = "Whether the nodes will be automatically repaired."
+  default     = "true"
+}
+
+variable "node_auto_upgrade" {
+  description = "Whether the nodes will be automatically upgraded"
+  default     = "true"
+}
+
+variable "preemptible" {
+  description = "whether or not the underlying node VMs are preemptible"
+  default     = "false"
+}
+
+variable "node_tags" {
+  description = "The list of instance tags applied to all nodes. "
+  type        = "list"
+  default     = ["foo", "bar"]
+}
+
+variable "node_labels" {
+  description = "The Kubernetes labels (key/value pairs) to be applied to each node"
+  type        = "map"
+
+  default = {
+    "department" = "ctds"
+    "sponsor"    = "sponsor"
+  }
+}
