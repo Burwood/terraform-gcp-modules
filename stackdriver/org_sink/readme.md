@@ -8,7 +8,7 @@ This module will create an organization level log sink that can be sent to eithe
 
 Once the log sink is created, GCP will create a managed service accoun that is associated with the sink. This service account needs to be granted write access to the configured destination. The default is to grant the service account the role of <code>storage.objectCreator</code>.
 
-## Varify
+## Verify
 Organizational log sinks are not visible from the UI. You must go to the API explorer to check. Below is the URL to check.
 
 https://cloud.google.com/logging/docs/reference/v2/rest/v2/organizations.sinks/list
