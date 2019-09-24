@@ -6,7 +6,6 @@
 data "google_compute_subnetwork" "subnetwork" {
   project = "${var.project}"
   region  = "${var.region}"
-  self_link    = "${var.subnetwork_name}"
   name    = "${var.subnetwork_name}"
 }
 
@@ -19,6 +18,7 @@ data "google_compute_zones" "available" {
 #
 #         Create a Google Compute Instance
 #
+
 ###############################################################################################################
 ######## Project Info
 resource "google_compute_instance" "default" {
@@ -48,13 +48,13 @@ resource "google_compute_instance" "default" {
 
   network_interface {
     subnetwork = "${data.google_compute_subnetwork.subnetwork.self_link}"
-    #subnetwork = "${var.subnetwork_name}"
 
     # Uncomment if public IP needed
     access_config {}
   }
 
   scheduling {
+    preemptible         = "${var.preemptible ? 1:0}"
     automatic_restart   = "${var.automatic_restart ? 1 : 0}"
     on_host_maintenance = "${var.on_host_maintenance == "MIGRATE" ? "MIGRATE" : "TERMINATE"}"
   }
@@ -64,33 +64,9 @@ resource "google_compute_instance" "default" {
   }
 
   # Startup Script. Uncomment if needed
-  #metadata-startup-script = "/tmp/k8s_admin_setup.sh"
+  metadata_startup_script = "${var.metadata_startup_script}"
   
   # Instance Metadata like ssh-keys
-  metadata {
-    sshKeys = "${var.ssh_user}:${file(var.ssh_key_pub)}"
-  }
-
-/*
-  provisioner "file" {
-    source      = "./scripts/k8s_admin_setup.sh"
-    destination = "/tmp/k8s_admin_setup.sh"
-  }
-  
-
-  provisioner "remote-exec" {
-    connection {
-      type        = "ssh"
-      user        = "${var.ssh_user}"
-      timeout     = "500s"
-      private_key = "${file(var.ssh_key)}"
-    }
-
-    inline = [
-      "chmod +x /tmp/consul-helm-setup.sh",
-      "/tmp/consul-helm-setup.sh",
-    ]
-  }
-*/
+  metadata = "${var.metadata}"
 
 }
