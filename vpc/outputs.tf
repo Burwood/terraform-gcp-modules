@@ -31,7 +31,6 @@ output "subnets_by_name" {
   value =  "${data.google_compute_subnetwork.created_subnets.*.name}"
 }
 
-
 output "subnets_by_name_noalias" {
   value =  "${data.google_compute_subnetwork.created_subnetsnoalias.*.name}"
 }
