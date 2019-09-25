@@ -74,7 +74,13 @@ Secondary Ranges is a map of maps in the form:
 
 | Name                | Description                                                                                                   |
 |---------------------|---------------------------------------------------------------------------------------------------------------|
-| peer1_state_details | Outputs the data and time of the VPC peer was created and if the the peer is connected from the commons side. |
-| peer1_vpc_state     | Outputs that state of the peer on the commons side. Will display as either ACTIVE or INACTIVE.                |
-| peer2_state_details | Outputs the data and time of the VPC peer was created and if the the peer is connected from the csoc side.    |
-| peer2_vpc_state     | Outputs that state of the peer on the csoc side. Will display as either ACTIVE or INACTIVE.                   |
+| network_name | The name of the VPC being created. |
+| network_self_link     | The URI of the VPC being created. |
+| network_id | The ID of the VPC being created. |
+| network_subnetwork | A list of subnets in the Network/VPC |
+| network_subnetwork_noalias | A list of subnets without secondary/alias IPs in the Network/VPC |
+| subnets_by_self_link_noalias | A list of self_links to subnets without secondary/alias IPs in the network/vpc |
+| subnets_by_self_link | A list of self_links to subnets with secondary/alias IPs in the network/vpc |
+| subnets_by_name | A list of subnets by name with secondary/alias IPs in the network |
+| subnets_by_name_noalias | A list of subnets by name without secondary/alias IPs in the network |
+| secondary_range_name | A list of secondary/alias IP ranges in the network |
