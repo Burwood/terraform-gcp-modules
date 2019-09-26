@@ -1,4 +1,4 @@
-resource "google_compute_firewall" "rule" {
+resource "google_compute_firewall" "fw-rule" {
   provider       = "google-beta"
   enable_logging = "${var.enable_logging}"
 

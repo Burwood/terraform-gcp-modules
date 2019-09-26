@@ -9,8 +9,8 @@ variable "direction" {
   default     = "EGRESS"
 }
 
-variable "network_project" {
-  description = "Name of the project for the network. Useful for shared VPC. Default is var.project."
+variable "network" {
+  description = "The self_link of the network to link the rules to."
   type        = "string"
   default     = ""
 }
@@ -32,6 +32,12 @@ variable "protocol" {
   type        = "string"
 }
 
+variable "direction" {
+  description = "The direction of the traffic we are filtering"
+  default     = "EGRESS"
+}
+
+
 variable "destination_ranges" {
   description = "A list of destination CIDR ranges that this firewall applies to. Can't be used for INGRESS."
   type        = "list"
@@ -40,11 +46,12 @@ variable "destination_ranges" {
 
 variable "enable_logging" {
   description = " This field denotes whether to enable logging for a particular firewall rule."
-  default     = "true"
+  default     = "false"
 }
 
 variable "name" {
   description = "Firewall rule name."
+  type        = "string"  
   default     = ""
 }
 

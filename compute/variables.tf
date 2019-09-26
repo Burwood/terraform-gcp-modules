@@ -1,3 +1,27 @@
+
+variable "project" {
+  description = "The ID of the project in which the resource belongs."
+}
+
+variable "region" {
+  default = "us-central1"
+}
+
+variable "environment" {
+  description = "Select envrironment type of prod or dev to change instance types. Prod = n1-standard-1, dev = g1-small"
+  default     = "dev"
+}
+
+variable "machine_type_dev" {
+  description = "(Required) The machine type to create for development."
+  default     = "f1-micro"
+}
+
+variable "machine_type_prod" {
+  description = "(Required) The machine type to create for production."
+  default     = "n1-standard-1"
+}
+
 variable "count_compute" {
   description = "The total number of instances to create."
   default     = "1"
@@ -7,14 +31,9 @@ variable "count_start" {
   default = "1"
 }
 
-variable "environment" {
-  description = "Select envrironment type of prod or dev to change instance types. Prod = n1-standard-1, dev = g1-small"
-  default     = "dev"
-}
-
 variable "image_name" {
   description = "(Required) The name of a specific image or a family."
-  default     = "ubuntu-1604-lts"
+  default     = "ubuntu-1804-lts"
 }
 
 # Compute Instance Variables
@@ -22,24 +41,6 @@ variable "instance_name" {
   description = "(Required) A unique name for the resource, required by GCE. Changing this forces a new resource to be created."
 
   #default = "instance"
-}
-
-variable "machine_type_dev" {
-  description = "(Required) The machine type to create for development."
-  default     = "g1-small"
-}
-
-variable "machine_type_prod" {
-  description = "(Required) The machine type to create for production."
-  default     = "n1-standard-1"
-}
-
-variable "project" {
-  description = "The ID of the project in which the resource belongs."
-}
-
-variable "region" {
-  default = "us-central1"
 }
 
 variable "compute_tags" {
@@ -50,6 +51,11 @@ variable "compute_tags" {
 variable "compute_labels" {
   type    = "map"
   default = {}
+}
+# Network Interface Variables
+variable "subnetwork_name" {
+  type = "string"
+  description = "Name of the subnetwork in the VPC."
 }
 
 # Boot-disk Variables
@@ -67,11 +73,6 @@ variable "auto_delete" {
   default     = "true"
 }
 
-# Network Interface Variables
-variable "subnetwork_name" {
-  type = "string"
-  description = "Name of the subnetwork in the VPC."
-}
 
 # Service Account block
 variable "scopes" {
@@ -91,21 +92,19 @@ variable "on_host_maintenance" {
   default     = "MIGRATE"
 }
 
-variable "ssh_user" {
-  type = "string"
-  description = "The user we want to insert an ssh-key for"
-}
-
-variable "ssh_key_pub" {
-  type = "string"
-  description = "The public key to insert for the ssh key we want to use"
-}
-
-variable "ssh_key" {
-  type = "string"
-  description = "The ssh key to use"
+variable "preemptible" {
+  description = "Whether or not this is a preemptible VM"
+  default     = false
 }
 
 variable "metadata_startup_script" {
+    description = "The user-data script to run at first boot"
+    type = "string"
     default = ""
+}
+
+variable "metadata" {
+  description = "A map of key/value pairs of things like user-data and ssh-keys"
+  type = "map"
+  default = {}
 }
